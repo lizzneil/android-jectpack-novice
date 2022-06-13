@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -27,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 import com.gabe.navigateapplication.PersonEntity
 
-
+@Preview
 @Composable
 fun PersonListScreen(
     viewModel: PersonListViewModel = hiltViewModel()
@@ -38,12 +39,12 @@ fun PersonListScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(46.dp)
+            .padding(6.dp,top=40.dp)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .weight(1f)
             ) {
                 items(persons) { person ->
@@ -51,7 +52,7 @@ fun PersonListScreen(
                         person = person,
                         onItemClick = { viewModel.getPersonById(person.id) },
                         onDeleteClick = { viewModel.onDeleteClick(person.id) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier =  Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -111,7 +112,7 @@ fun PersonItem(
 ) {
 
     Row(
-        modifier = Modifier.clickable { onItemClick() },
+        modifier = modifier.clickable { onItemClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
