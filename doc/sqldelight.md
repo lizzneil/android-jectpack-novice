@@ -1,5 +1,5 @@
 Gradle
-![image info](./How2UseSqlDelight.png)
+![image info](./how2UseSqlDeLight.png)
 For greater customization, you can declare databases explicitly using the Gradle DSL.
 
 build.gradle:
