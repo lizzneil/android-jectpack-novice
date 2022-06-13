@@ -1,0 +1,7 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/ic_notifications_black_24dp" android:duration="400" />
+    <item android:drawable="@drawable/ic_dashboard_black_24dp" android:duration="800" />
+    <item android:drawable="@drawable/ic_launcher_background" android:duration="400" />
+    <item android:drawable="@drawable/ic_notifications_black_24dp" android:duration="400" />
+</animation-list>

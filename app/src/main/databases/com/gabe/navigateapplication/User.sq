@@ -1,0 +1,13 @@
+CREATE TABLE User(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER,
+    gender INTEGER,
+    phoneNumber TEXT
+);
+
+insertUser:
+INSERT INTO User(name,age,gender,phoneNumber) VALUES (?,?,?,?);
+
+queryById:
+SELECT * FROM User WHERE  id = ?;
