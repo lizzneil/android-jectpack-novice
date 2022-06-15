@@ -1,5 +1,6 @@
 package com.gabe.navigateapplication.ui.dashboard
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -7,13 +8,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.gabe.navigateapplication.network.CharacterData
-import com.gabe.navigateapplication.network.RetroInstance
 import com.gabe.navigateapplication.network.RetroService
 import com.gabe.navigateapplication.pagingsource.CharacterPagingSource
 import kotlinx.coroutines.flow.Flow
 
-class RecyclerViewViewModel : ViewModel() {
-    var retroService: RetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
+class RecyclerViewViewModel( private val retroService: RetroService) : ViewModel() {
+//    var retroService: RetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
+
 
     fun getListData(): Flow<PagingData<CharacterData>> {
         return Pager(

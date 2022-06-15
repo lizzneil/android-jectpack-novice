@@ -3,7 +3,7 @@ package com.gabe.navigateapplication
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavOptions
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -13,7 +13,7 @@ import com.airbnb.lottie.LottieDrawable
 import com.gabe.navigateapplication.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
         navView.menu.apply {
             for (i in pairAnimationList.indices) {
                 // 添加title
@@ -54,56 +53,35 @@ class MainActivity : AppCompatActivity() {
                 setLottieDrawable(pairAnimationList, navView, i)
             }
         }
-//        这里的 加fragment的 的过场动画，不是 bottomNavigate的动画。
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-//            .setEnterAnim(R.animator.path_morph)
-//            .setExitAnim(R.animator.rotation)
-//            .setPopEnterAnim(R.animator.rotation)
-//            .setPopExitAnim(R.animator.path_morph)
-            .setPopUpTo(navController.graph.startDestinationId, false)
-            .build()
-// Then use setOnNavigationItemSelectedListener to navigate with animation like that.
-        navView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    navController.navigate(R.id.navigation_home, null, options)
-                }
-                R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.navigation_dashboard, null, options)
-                }
-                R.id.navigation_notifications -> {
-//                     播 AnimationDrawable动画的，现在设成LOTTIE 了，就先 注掉，不演示这个了。
-//                    var anim = navView.menu.getItem(2).icon as AnimationDrawable
-//                    anim.start()
-                    navController.navigate(R.id.navigation_notifications, null, options)
-                }
-            }
-            val currentItemId = item.itemId;
-            // 处理 tab 切换，icon 对应调整
-            var menu: MenuItem? = null
-            for (i in 0 until navView.menu.size()) {
-                menu = navView.menu.getItem(i)
-                if (menu.itemId != currentItemId) {
-                    menu.icon =
-                        replaceLottieDrawable(
-                            pairAnimationList[i].first,
-                            navView
-                        )
-                } else {
-                    val currentIcon = menu.icon as? LottieDrawable
-                    currentIcon?.apply {
-                        // 开启动画
-                        playAnimation()
-                        // 无限播放
-                        // loop(true)
+
+        val mainDestinationChangedListener =
+            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                val currentItemId = destination.id;
+                // 处理 tab 切换，icon 对应调整
+                var menu: MenuItem? = null
+                for (i in 0 until navView.menu.size()) {
+                    menu = navView.menu.getItem(i)
+                    if (menu.itemId != currentItemId) {
+                        menu.icon =
+                            replaceLottieDrawable(
+                                pairAnimationList[i].first,
+                                navView
+                            )
+                    } else {
+                        val currentIcon = menu.icon as? LottieDrawable
+                        currentIcon?.apply {
+                            // 开启动画
+                            playAnimation()
+                            // 无限播放
+                            // loop(true)
+                        }
                     }
                 }
             }
-            true
-        }
-
+        navController.addOnDestinationChangedListener(mainDestinationChangedListener)
+        true
     }
+
 
     /*
     *  将lottie转变为drawable 设置给menu
