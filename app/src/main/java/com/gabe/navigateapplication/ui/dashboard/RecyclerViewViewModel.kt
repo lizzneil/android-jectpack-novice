@@ -27,7 +27,7 @@ class RecyclerViewViewModel(private val retroService: RetroService) : ViewModel(
 //            // Handle response
 //        }
 //    }
-//    private lateinit var pageDataFlow  : MutableSharedFlow<PagingData<CharacterData>>
+
     private var pageDataFlow: Flow<PagingData<CharacterData>>? = null
 
     fun getListData(): Flow<PagingData<CharacterData>> {
