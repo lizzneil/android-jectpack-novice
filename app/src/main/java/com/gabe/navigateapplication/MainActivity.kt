@@ -2,7 +2,9 @@ package com.gabe.navigateapplication
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 setLottieDrawable(pairAnimationList, navView, i)
             }
         }
-
+        navView.getOrCreateBadge(R.id.navigation_dashboard).number = 2
         val mainDestinationChangedListener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
                 val currentItemId = destination.id;
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                 var menu: MenuItem? = null
                 for (i in 0 until navView.menu.size()) {
                     menu = navView.menu.getItem(i)
+                    binding.navView.removeBadge(currentItemId)
                     if (menu.itemId != currentItemId) {
                         menu.icon =
                             replaceLottieDrawable(
