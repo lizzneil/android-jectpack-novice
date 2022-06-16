@@ -9,12 +9,13 @@ import androidx.paging.cachedIn
 import com.gabe.navigateapplication.network.CharacterData
 import com.gabe.navigateapplication.network.RetroService
 import com.gabe.navigateapplication.pagingsource.CharacterPagingSource
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-
-@ActivityScoped
-class RecyclerViewViewModel(private val retroService: RetroService) : ViewModel() {
+@HiltViewModel
+class RecyclerViewViewModel @Inject constructor(private val retroService: RetroService) :
+    ViewModel() {
 //    var retroService: RetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
 
 //    private lateinit var pageDataFlow  :Flow<PagingData<CharacterData>>
