@@ -36,7 +36,6 @@ class StateAdapter(private val retry: () -> Unit) :
 
         fun bind(loadState: LoadState) {
             itemView.apply {
-
                 itemView.findViewById<ProgressBar>(R.id.load_state_progress)
                     .visibleWhen(loadState is LoadState.Loading)
                 itemView.findViewById<TextView>(R.id.load_state_errorMessage)
@@ -44,13 +43,11 @@ class StateAdapter(private val retry: () -> Unit) :
                 itemView.findViewById<View>(R.id.load_state_retry)
                     .visibleWhen(loadState is LoadState.Error)
             }
-
             if (loadState is LoadState.Error) {
                 itemView.findViewById<TextView>(R.id.load_state_errorMessage).text =
                     loadState.error.localizedMessage
             }
         }
-
     }
 }
 

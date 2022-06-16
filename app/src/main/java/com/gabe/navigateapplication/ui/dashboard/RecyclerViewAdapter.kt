@@ -21,10 +21,9 @@ class RecyclerViewAdapter :
             "gabe-rc-adapter",
             "${getItem(position)?.name}:$position \t image: ${getItem(position)?.image}"
         )
-//        2022-06-08 01:01:24.832 5466-5466/com.gabe.pagingv3demo I/gabe-rc-adapter: Big Boobed Waitress:40
-//        image: https://rickandmortyapi.com/api/character/avatar/41.jpeg
-//        2022-06-08 01:01:24.842 5466-5466/com.gabe.pagingv3demo I/gabe-rc-adapter: null:39 	 image: null
-        //滚快了会出现空，原因不明，待查。
+//        com.gabe.pagingv3demo I/gabe-rc-adapter: Big Boobed Waitress:40
+//        image: https://rickandmortyapi.co要m/api/character/avatar/41.jpeg
+//        com.gabe.pagingv3demo I/gabe-rc-adapter: null:39 	 image: null
 //　官方文档说这里可能空。。。。。
         //https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data
         //Define a RecyclerView adapter
@@ -38,9 +37,7 @@ class RecyclerViewAdapter :
         } else {
             // Null defines a placeholder item - PagedListAdapter will automatically invalidate
             // this row when the actual object is loaded from the database
-
             holder.placeholder()
-//            holder.itemView.invalidate();
         }
     }
 
@@ -56,7 +53,6 @@ class RecyclerViewAdapter :
 
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         private val imageView: ImageView = view.findViewById<ImageView>(R.id.header_image_view)
         private val tvName: TextView = view.findViewById<TextView>(R.id.tvName)
         private val tvDesc: TextView = view.findViewById<TextView>(R.id.tvDesc)
@@ -70,12 +66,6 @@ class RecyclerViewAdapter :
             tvName.text = "notice"
             tvDesc.text = "loading... "
             imageView.setImageResource(R.drawable.ic_launcher_foreground)
-//            if(data?image!!){
-//
-//            }
-//            imageView.load(data: CharacterData?.uimagerl) {
-//                placeholder(R.drawable.ic_launcher_foreground)
-//            }
         }
     }
 

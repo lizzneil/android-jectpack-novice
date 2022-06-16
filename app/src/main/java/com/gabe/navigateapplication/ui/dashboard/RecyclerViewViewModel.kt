@@ -18,10 +18,7 @@ class RecyclerViewViewModel @Inject constructor(private val retroService: RetroS
     ViewModel() {
 //    var retroService: RetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
 
-//    private lateinit var pageDataFlow  :Flow<PagingData<CharacterData>>
-
-
-    //    fun loadData() {
+//    fun loadData() {
 //        val id = handle["id"] ?: "default"
 //        viewModelScope.launch {
 //            val response = retroService.getDataFromApi(id)

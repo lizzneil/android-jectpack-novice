@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gabe.navigateapplication.R
 import com.gabe.navigateapplication.databinding.FragmentDashboardBinding
 import com.gabe.navigateapplication.util.visibleWhen
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,15 +36,10 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         initRecyclerView()
-
-        binding.rcRetryButton .setOnClickListener {
+        binding.rcRetryButton.setOnClickListener {
             recyclerViewAdapter.retry()
         }
-//        movie_retry_button.setOnClickListener {
-//            movieAdapter.retry()
-//        }
         return root
     }
 
@@ -94,9 +85,9 @@ class DashboardFragment : Fragment() {
             recyclerViewAdapter.addLoadStateListener { loadState ->
 
                 loadState.refresh.let {
-                    binding.rcErrorMsgTextView .visibleWhen(it is LoadState.Error)
-                    binding.rcRetryButton .visibleWhen(it is LoadState.Error)
-                    binding.rcProgressBar .visibleWhen(it is LoadState.Loading)
+                    binding.rcErrorMsgTextView.visibleWhen(it is LoadState.Error)
+                    binding.rcRetryButton.visibleWhen(it is LoadState.Error)
+                    binding.rcProgressBar.visibleWhen(it is LoadState.Loading)
                     binding.recycleView.visibleWhen(it is LoadState.NotLoading)
 
                     if (it is LoadState.Error) {
@@ -117,7 +108,6 @@ class DashboardFragment : Fragment() {
 //        val viewModel2 = ViewModelProvider(this).get(modelClass = RecyclerViewViewModel::class.java)
 
         //以下是有参的情况 目标RecyclerViewViewModel有参  有参需要自定义Factory
-
 //初始化 viewModel     方 法2      RetroApiModule .provideGithubApi(context)
 //        val tRetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
 //        val tFactory = RecyclerViewModelFactory(tRetroService)
