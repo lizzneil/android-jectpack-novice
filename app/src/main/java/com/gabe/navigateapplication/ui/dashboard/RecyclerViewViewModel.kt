@@ -1,6 +1,5 @@
 package com.gabe.navigateapplication.ui.dashboard
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -12,25 +11,18 @@ import androidx.paging.cachedIn
 import com.gabe.navigateapplication.network.CharacterData
 import com.gabe.navigateapplication.network.RetroService
 import com.gabe.navigateapplication.pagingsource.CharacterPagingSource
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-
-//class RecyclerViewViewModel @AssistedInject constructor(
-//    private val application: Application,
-//    @Assisted private val savedStateHandle: SavedStateHandle
-//)
-
-//class RecyclerViewViewModel @Inject constructor(private val retroService: RetroService,state : SavedStateHandle) :
 @HiltViewModel
-class RecyclerViewViewModel @Inject constructor(private val retroService: RetroService ,private val savedStateHandle: SavedStateHandle) :
+class RecyclerViewViewModel @Inject constructor(
+    private val retroService: RetroService,
+    private val savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
+    //没用注入时，用这个实例来完成网络请求； 有注入时有构造里的。  放在构造里解藕。
 //    var retroService: RetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
 
     fun loadData() {
@@ -44,6 +36,7 @@ class RecyclerViewViewModel @Inject constructor(private val retroService: RetroS
             Log.i("gabe", "paging ix :  $id || $pageInfo $namexx")
         }
     }
+
     private var pageDataFlow: Flow<PagingData<CharacterData>>? = null
 
 //    // must be inside of the ViewModel class!
@@ -65,11 +58,8 @@ class RecyclerViewViewModel @Inject constructor(private val retroService: RetroS
 
     fun getCurrentId(): Int {
         // Gets the current value of the user id from the saved state handle
-        return savedStateHandle.get(PAGING_ID_KEY)?: 0
+        return savedStateHandle.get(PAGING_ID_KEY) ?: 0
     }
-
-
-
 
 
     fun getListData(): Flow<PagingData<CharacterData>> {
@@ -86,4 +76,15 @@ class RecyclerViewViewModel @Inject constructor(private val retroService: RetroS
 
         return pageDataFlow as Flow<PagingData<CharacterData>>
     }
+
+//    class RecyclerViewModelFactory(
+//        private val retroService: RetroService,
+//        private val stateHandle: SavedStateHandle
+//    ) : ViewModelProvider.NewInstanceFactory() {
+//
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return RecyclerViewViewModel(retroService, stateHandle) as T
+//        }
+//
+//    }
 }

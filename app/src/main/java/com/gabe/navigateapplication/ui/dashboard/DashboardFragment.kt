@@ -15,6 +15,7 @@ import com.gabe.navigateapplication.util.visibleWhen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -27,7 +28,24 @@ class DashboardFragment : Fragment() {
 
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
+
+    //注入viewModel方法1， 支持SavedStateHandle  代码目前使用的是方法2 定制版本。 方法1 更简单不需要定制，
     private val viewModel: RecyclerViewViewModel by viewModels<RecyclerViewViewModel>()
+
+
+    //注入注入viewModel方法2， ----------------start
+    // 支持SavedStateHandle
+    @Inject
+    lateinit var factory: StoreRecycleViewModel.StoreRecycleViewModelFactory
+
+    //不定制，也可以直接用方法1，
+    // private val sViewModel: StoreRecycleViewModel by viewModels<StoreRecycleViewModel>()
+
+    //定制一下factory
+    private val sViewModel: StoreRecycleViewModel by viewModels {
+        GenericSavedStateViewModelFactory(factory, this)
+    }
+    //注入注入viewModel方法1方法2， ----------------end
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +68,9 @@ class DashboardFragment : Fragment() {
 //    The fragment's view hierarchy is not however attached to its parent at this point.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // retrieve articleId and pass it to your factory
+//        sViewModel = ViewModelProvider(this, factory).get(modelClass = StoreRecycleViewModel::class.java)
         initViewModel()
     }
 
@@ -126,9 +147,16 @@ class DashboardFragment : Fragment() {
         //这个是示例。
         // private val viewModel: RecyclerViewViewModel by viewModels<RecyclerViewViewModel>()
 
-        viewModel.loadData()
+//        viewModel.loadData()
+//        lifecycleScope.launch {
+//            viewModel.getListData().collectLatest {
+//                recyclerViewAdapter.submitData(it)
+//            }
+//        }
+
+        sViewModel.loadData()
         lifecycleScope.launch {
-            viewModel.getListData().collectLatest {
+            sViewModel.getListData().collectLatest {
                 recyclerViewAdapter.submitData(it)
             }
         }

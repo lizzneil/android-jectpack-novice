@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gabe.navigateapplication.R
 import com.gabe.navigateapplication.util.visibleWhen
 
-
+//这个是用来处理分页 拉动时 的加载提示，出错按钮。
 class StateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<StateAdapter.LoadStateViewHolder>() {
 
