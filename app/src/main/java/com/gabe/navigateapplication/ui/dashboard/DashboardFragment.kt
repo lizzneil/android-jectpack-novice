@@ -107,15 +107,26 @@ class DashboardFragment : Fragment() {
 //        val viewModel = ViewModelProvider(this)[RecyclerViewViewModel::class.java]
 //        val viewModel2 = ViewModelProvider(this).get(modelClass = RecyclerViewViewModel::class.java)
 
+
         //以下是有参的情况 目标RecyclerViewViewModel有参  有参需要自定义Factory
 //初始化 viewModel     方 法2      RetroApiModule .provideGithubApi(context)
+        //过时的有参版本
 //        val tRetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
 //        val tFactory = RecyclerViewModelFactory(tRetroService)
 //        val viewModel = ViewModelProviders.of(this, tFactory).get(modelClass = RecyclerViewViewModel::class.java)
 
-        //初始化 viewModel     方 法3   不用管，HITL 注入的。 在类里面声明成员变量，指明 是注入的viewModel
+        //新有参版本。
+//        val tRetroService = RetroInstance.getRetroInstance().create(RetroService::class.java)
+//        ViewModelProvider(
+//            this,
+//            RecyclerViewModelFactory(tRetroService)
+//        ).get(modelClass = RecyclerViewViewModel::class.java)
+
+        //初始化 viewModel     方 法3   不用管，hilt 注入的。 在类里面声明成员变量，指明 是注入的viewModel
         //这个是示例。
         // private val viewModel: RecyclerViewViewModel by viewModels<RecyclerViewViewModel>()
+
+        viewModel.loadData()
         lifecycleScope.launch {
             viewModel.getListData().collectLatest {
                 recyclerViewAdapter.submitData(it)
