@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.gabe.navigateapplication.R
 import com.gabe.navigateapplication.databinding.loadImage
-import com.gabe.navigateapplication.glide.GlideApp
 import com.gabe.navigateapplication.network.CharacterData
 
 
 class RecyclerViewAdapter :
     PagingDataAdapter<CharacterData, RecyclerViewAdapter.MyViewHolder>(DiffUtilCallback()) {
+
+
     override fun onBindViewHolder(holder: RecyclerViewAdapter.MyViewHolder, position: Int) {
         Log.i(
             "gabe-rc-adapter",
@@ -59,11 +60,53 @@ class RecyclerViewAdapter :
         private val imageView: ImageView = view.findViewById<ImageView>(R.id.header_image_view)
         private val tvName: TextView = view.findViewById<TextView>(R.id.tvName)
         private val tvDesc: TextView = view.findViewById<TextView>(R.id.tvDesc)
-        fun bind(data: CharacterData) {
-            tvName.text = data.name
-            tvDesc.text = data.species
+
+        private var data: CharacterData? = null
+
+        init {
+            view.setOnClickListener {
+                data?.let { personDetail ->
+                    val builder = AlertDialog.Builder(view.context)
+                    builder.setTitle("Android Alert")
+                    builder.setMessage("${personDetail.name}    @ ${personDetail.species}")
+                    builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                        Toast.makeText(
+                            view.context,
+                            android.R.string.yes, Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                        Toast.makeText(
+                            view.context,
+                            android.R.string.no, Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    builder.setNeutralButton("Maybe") { dialog, which ->
+                        Toast.makeText(
+                            view.context,
+                            "Maybe   ${personDetail.name}    @ ${personDetail.species}", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    builder.show()
+                }
+            }
+        }
+
+        fun bind(aData: CharacterData?) {
+            if (aData == null) {
+                placeholder()
+            } else {
+                showRepoData(aData)
+            }
+        }
+
+        private fun showRepoData(repo: CharacterData) {
+            data = repo
+
+            tvName.text = data!!.name
+            tvDesc.text = data!!.species
             //用配置好的公用glide 替换现在的。一改全改。
-            loadImage(imageView, data.image!!)
+            loadImage(imageView, data!!.image!!)
 //            Glide.with(imageView).load(data.image).circleCrop().into(imageView)
         }
 
@@ -83,6 +126,5 @@ class RecyclerViewAdapter :
             return oldItem.name == newItem.name && oldItem.species == oldItem.species && oldItem.image == newItem.image
         }
     }
-
 
 }

@@ -162,6 +162,24 @@ dependencies {
     //项目中没有kotlin时，用注掉的这一行，有时用下面一行
 //    annotationProcessor "com.github.bumptech.glide:compiler:4.13.2"
     kapt("com.github.bumptech.glide:compiler:4.13.2")
+
+
+/// Epoxy is an Android library for building complex screens in a RecyclerView.
+    //https://proandroiddev.com/epoxy-build-declarative-reusable-ui-components-3d10d2b09cb6
+    def epoxy_version = "3.9.0"
+    implementation "com.airbnb.android:epoxy:$epoxy_version"
+    implementation "com.airbnb.android:epoxy-paging:$epoxy_version"
+    implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
+    kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
+
+//    object Epoxy {
+//
+//        val epoxy = "com.airbnb.android:epoxy:$version"
+//        val paging = "com.airbnb.android:epoxy-paging:$version"
+//        val dataBinding = "com.airbnb.android:epoxy-databinding:$version"
+//        val processor = "com.airbnb.android:epoxy-processor:$version"
+//    }
+
 }
 
 
