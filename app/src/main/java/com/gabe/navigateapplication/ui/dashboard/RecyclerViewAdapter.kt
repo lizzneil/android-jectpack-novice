@@ -10,7 +10,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.gabe.navigateapplication.R
+import com.gabe.navigateapplication.databinding.loadImage
+import com.gabe.navigateapplication.glide.GlideApp
 import com.gabe.navigateapplication.network.CharacterData
 
 
@@ -59,7 +62,9 @@ class RecyclerViewAdapter :
         fun bind(data: CharacterData) {
             tvName.text = data.name
             tvDesc.text = data.species
-            Glide.with(imageView).load(data.image).circleCrop().into(imageView)
+            //用配置好的公用glide 替换现在的。一改全改。
+            loadImage(imageView, data.image!!)
+//            Glide.with(imageView).load(data.image).circleCrop().into(imageView)
         }
 
         fun placeholder() {
@@ -78,4 +83,6 @@ class RecyclerViewAdapter :
             return oldItem.name == newItem.name && oldItem.species == oldItem.species && oldItem.image == newItem.image
         }
     }
+
+
 }

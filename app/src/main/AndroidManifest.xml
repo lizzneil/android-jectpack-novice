@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NavigateApplication"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.gabe.navigateapplication.glide.GlideConfig"
+            android:value="GlideModule"/>
         <activity
             android:name=".PersonDbActivity"
             android:exported="true"

@@ -17,6 +17,25 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//https://proandroiddev.com/saving-ui-state-with-viewmodel-savedstate-and-dagger-f77bcaeb8b08#f2a2
+//解释了 因历史原因。现在需要怎么做。
+//You may have noticed that we have a problem now.
+//
+//First, we need to extend AbstractSavedStateViewModelFactory and not ViewModelProvider.Factory
+//and second, the we have a new ViewModel constructor argument, SavedStateHandle,
+// but we only get its instance when AbstractSavedStateViewModelFactory calls our implementation of create() function where it then passes the SavedStateHandle instance.
+// With the traditional Dagger setup, we get the ViewModel instance from Provider<ViewModel>.get() and
+// there’s no option to pass extra constructor parameters so this approach with Dagger is not going to work anymore.
+// We’ve already seen earlier that the only way to solve this problem is by having a ViewModel specific factory.
+//Moreover, AbstractSavedStateViewModelFactory takes SavedStateRegistryOwner,
+// which if you recall, is a very important argument that associates the saved state to the Activity/Fragment.
+// We cannot just inject whatever Activity/Fragment instance here.
+//Unfortunately, the traditional approach is no longer valid when using SavedState ViewModel.
+// As mentioned previously, you have to create one Factory per ViewModel while making sure that you pass the right SavedStateRegistryOwner instance.
+//
+//Nevertheless, we can still use Dagger to inject other dependencies needed for the ViewModel by creating 2 layers of factories — covered in the next section.
+
+//被KILL 时存一下参数。用于恢复
 //为存SavedStateHandle 写的。实际上不写也可以，直接用RecyclerViewViewModel。
 //在非注入时只能用 这个。
 @HiltViewModel
@@ -72,6 +91,10 @@ class StoreRecycleViewModel @Inject constructor(
         return savedStateHandle.get(PAGING_ID_KEY) ?: 0
     }
 
+
+//    Note that the factory interface above must be nested inside the ViewModel class otherwise you will get a compilation error.
+//    这个工厂模式必需 嵌套在viewModel内，不然有编译错误。
+
 //    Injectable factory per ViewModel
 //    Create an interface that each ViewModel factory will need to implement:
     //androidx.hilt.lifecycle.ViewModelAssistedFactory  这个接口协助生成viewModel工厂
@@ -86,4 +109,5 @@ class StoreRecycleViewModel @Inject constructor(
         }
     }
 
+//    Since Dagger 2.31, AssistedInject is part of the library.
 }
